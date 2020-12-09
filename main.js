@@ -1,26 +1,36 @@
 let allSection = document.querySelectorAll(".text > section");
 let activeSection = 0;
 
+let time = new Date().getTime();
+let funcTime = 600;
 
-const inAction = (fun, delay) => {
-    let lastCall = 0;
-    return () => {
-        let now = new Date().getTime();
-        if (now - lastCall < delay) {
+window.addEventListener("wheel", function (e) {
+    setTimeout(function () {
+        let actualTime = new Date().getTime();
+        if ((actualTime - time) < funcTime) {
             return;
+        } else {
+            if (e.deltaY > 0) {
+                if (activeSection < (allSection.length - 1)) {
+                    activeSection++;
+                    console.log("ti bere scroll posht " + activeSection);
+                    for (let i = 0; i < allSection.length; i++) {
+                        allSection[i].style.transform = "translate3d(0,-" + (activeSection * 100) + "%,0)";
+                    }
+                }
+            } else {
+                if (activeSection > 0) {
+                    console.log("ti bere scroll lart " + activeSection);
+                    for (let i = 0; i < allSection.length; i++) {
+                        allSection[i].style.transform = "translate3d(0,-" + (activeSection * 100 - 100) + "%,0)";
+                    }
+                    activeSection--;
+                }
+            }
+            time = new Date().getTime();
         }
-        lastCall = now;
-        return fun();
-    }
-}
-
-let textDesign = document.querySelector(".text");
-
-textDesign.addEventListener("scroll", inAction((e) => {
-    for (let i = 0; i < allSection.length; i++) {
-        allSection[i].style.transform = "translate3d(0,-100%,0)";
-    }
-}, 2000));
+    }, 200);
+});
 
 // window.addEventListener("touchmove", inAction((e) => {
 //     console.log(e);

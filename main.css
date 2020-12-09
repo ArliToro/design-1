@@ -32,5 +32,5 @@ main {
     width: 100%;
     height: 100vh;
     transform: translate3d(0,0,0);
-    transition: 1.8s;
+    transition: .5s ease-in;
 }
