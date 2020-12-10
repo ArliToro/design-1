@@ -20,8 +20,9 @@ function sectionTeleportation(prev, active, next) {
 function spanAfterMovement(prevChildren, nextChildren) {
     for (let i = 0; i < allSection.length; i++) {
         let allSpanChildren = allSection[i].querySelectorAll("span");
-        for (let all = 0; all < allSpanChildren.length; all++){
+        for (let all = 0; all < allSpanChildren.length; all++) {
             allSpanChildren[all].style.transform = "translate3d(0, 0, 0)";
+            allSpanChildren[all].style.opacity = "1";
         }
     }
     let nextSpanChildren = nextChildren.querySelectorAll("span");
@@ -33,7 +34,7 @@ function spanAfterMovement(prevChildren, nextChildren) {
     let prevSpanChildren = prevChildren.querySelectorAll("span");
     for (let l = 0; l < prevSpanChildren.length; l++) {
         prevSpanChildren[l].style.transitionDelay = 0.1 * l + "s";
-        nextSpanChildren[l].style.opacity = "0";
+        prevSpanChildren[l].style.opacity = "0";
         prevSpanChildren[l].style.transform = "translate3d(0,-60px,0)";
     }
 }
@@ -51,7 +52,7 @@ window.addEventListener("load", function () {
 })
 
 let time = new Date().getTime();
-let funcTime = 1300;
+let funcTime = 1650;
 
 window.addEventListener("wheel", function (e) {
     setTimeout(function () {
@@ -62,10 +63,10 @@ window.addEventListener("wheel", function (e) {
                 activeSection++;
                 setTimeout(function () {
                     spanUpperMovement(allSection[activeSection]);
-                }, 500)
+                }, 550)
                 setTimeout(function () {
                     spanAfterMovement(allSection[(activeSection - 1)], allSection[(activeSection + 1)])
-                }, 500)
+                }, 550)
                 if (activeSection === (allSection.length - 1)) {
                     setTimeout(function () {
                         activeSection = 1;
@@ -82,15 +83,20 @@ window.addEventListener("wheel", function (e) {
                             for (let i = 0; i < allSection.length; i++) {
                                 allSection[i].style.transitionDuration = ".55s";
                             }
-                        }, 20)
-                    }, 1300);
+                        }, 20);
+                        spanAfterMovement(allSection[(activeSection - 1)], allSection[(activeSection + 1)])
+
+                    }, 1600);
                 }
             } else {
                 lowerMovement(allSection[(activeSection - 1)], allSection[activeSection])
                 activeSection--;
                 setTimeout(function () {
                     spanUpperMovement(allSection[activeSection]);
-                }, 500)
+                }, 550)
+                setTimeout(function () {
+                    spanAfterMovement(allSection[(activeSection - 1)], allSection[(activeSection + 1)])
+                }, 550)
                 if (activeSection === 0) {
                     setTimeout(function () {
                         activeSection = allSection.length - 2;
@@ -107,8 +113,9 @@ window.addEventListener("wheel", function (e) {
                             for (let i = 0; i < allSection.length; i++) {
                                 allSection[i].style.transitionDuration = ".55s";
                             }
-                        }, 30)
-                    }, 500);
+                        }, 20)
+                        spanAfterMovement(allSection[(activeSection - 1)], allSection[(activeSection + 1)])
+                    }, 1600);
                 }
             }
             time = new Date().getTime();
