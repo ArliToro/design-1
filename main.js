@@ -52,7 +52,7 @@ window.addEventListener("load", function () {
 })
 
 let time = new Date().getTime();
-let funcTime = 1650;
+let funcTime = 1800;
 
 window.addEventListener("wheel", function (e) {
     setTimeout(function () {
@@ -86,7 +86,7 @@ window.addEventListener("wheel", function (e) {
                         }, 20);
                         spanAfterMovement(allSection[(activeSection - 1)], allSection[(activeSection + 1)])
 
-                    }, 1600);
+                    }, 1650);
                 }
             } else {
                 lowerMovement(allSection[(activeSection - 1)], allSection[activeSection])
@@ -115,7 +115,7 @@ window.addEventListener("wheel", function (e) {
                             }
                         }, 20)
                         spanAfterMovement(allSection[(activeSection - 1)], allSection[(activeSection + 1)])
-                    }, 1600);
+                    }, 1650);
                 }
             }
             time = new Date().getTime();
