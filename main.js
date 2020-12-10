@@ -1,30 +1,41 @@
-let allSection = document.querySelectorAll(".text > section");
-let activeSection = 0;
+let allSection = document.querySelectorAll(".wrapper > section");
+let activeSection = 1;
+
+function upperMovement(active, next) {
+    active.style.transform = "translate3d(0, -100%, 0)";
+    next.style.transform = "translate3d(0, 0, 0)";
+}
+
+function lowerMovement(prev, active) {
+    prev.style.transform = "translate3d(0, 0, 0)";
+    active.style.transform = "translate3d(0, 50%, 0)";
+}
+
+function sectionTeleportation(prev,active,next) {
+    prev.style.transform = "translate3d(0, -100%, 0)";
+    active.style.transform = "translate3d(0, 0, 0)";
+    next.style.transform = "translate3d(0, 50%, 0)";
+}
 
 let time = new Date().getTime();
-let funcTime = 600;
+let funcTime = 650;
 
 window.addEventListener("wheel", function (e) {
     setTimeout(function () {
         let actualTime = new Date().getTime();
-        if ((actualTime - time) < funcTime) {
-            return;
-        } else {
+        if ((actualTime - time) >= funcTime) {
             if (e.deltaY > 0) {
-                if (activeSection < (allSection.length - 1)) {
-                    activeSection++;
-                    console.log("ti bere scroll posht " + activeSection);
-                    for (let i = 0; i < allSection.length; i++) {
-                        allSection[i].style.transform = "translate3d(0,-" + (activeSection * 100) + "%,0)";
-                    }
-                }
+                upperMovement(allSection[activeSection], allSection[(activeSection + 1)])
+                activeSection++;
             } else {
-                if (activeSection > 0) {
-                    console.log("ti bere scroll lart " + activeSection);
-                    for (let i = 0; i < allSection.length; i++) {
-                        allSection[i].style.transform = "translate3d(0,-" + (activeSection * 100 - 100) + "%,0)";
-                    }
-                    activeSection--;
+                lowerMovement(allSection[(activeSection - 1)], allSection[activeSection])
+                activeSection--;
+                if (activeSection === 0) {
+                    setTimeout(function (){
+                        activeSection = allSection.length -2;
+                        alert(allSection[(activeSection - 1)]+ " " + allSection[activeSection] + " " + allSection[(activeSection + 1)]);
+                        sectionTeleportation(allSection[(activeSection - 1)],allSection[activeSection],allSection[(activeSection + 1)]);
+                    },500);
                 }
             }
             time = new Date().getTime();
@@ -32,6 +43,3 @@ window.addEventListener("wheel", function (e) {
     }, 200);
 });
 
-// window.addEventListener("touchmove", inAction((e) => {
-//     console.log(e);
-// }, 2000));
